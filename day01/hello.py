@@ -2,7 +2,7 @@ goal = "学会独立编程，找到AI Agent相关实习"
 graduation_year = "2028"
 direction = "AI Agent独立开发"
 days = 7
-hours_per_day=4
+hours_per_day=3
 total_hours=hours_per_day*days
 
 print("我的学习目标：",goal)
