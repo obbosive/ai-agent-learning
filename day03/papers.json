@@ -1,0 +1,17 @@
+[
+    {
+        "title": "ReAct",
+        "year": 2022,
+        "is_read": true
+    },
+    {
+        "title": "AutoGen",
+        "year": 2023,
+        "is_read": true
+    },
+    {
+        "title": "MetaGPT",
+        "year": 2023,
+        "is_read": true
+    }
+]
