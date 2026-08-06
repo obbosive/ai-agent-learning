@@ -64,7 +64,6 @@ def show_menu():
 loaded_papers=load_papers()
 while(True):
     show_menu()
-    # choice=input("请输入用户选择，如果选择是字符串 "1"：查看论文否则如果是 "2"：添加论文否则如果是 "3"：标记论文为已读否则如果是 "4"：提示程序退出用 break 结束循环否则：提示无效选择")
     choice = input("请输入选择（1-4）：").strip()
     if choice=='1':
         show_papers(loaded_papers)
@@ -78,10 +77,3 @@ while(True):
     else:
         print("无效选择，请重新输入。")
 
-# loaded_papers = load_papers()
-# show_papers(loaded_papers)
-
-# # add_paper(loaded_papers)  # 暂时不调用添加功能
-# mark_paper_as_read(loaded_papers)
-
-# show_papers(loaded_papers)
