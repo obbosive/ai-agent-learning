@@ -65,6 +65,7 @@ def search_papers(papers):
         if keyword.lower() in paper['title'].lower():
             matched_list.append(paper)
     if matched_list:
+        print(f"共找到{len(matched_list)}篇匹配论文")
         show_papers(matched_list)
     else:
         print("没有找到匹配的论文！")
