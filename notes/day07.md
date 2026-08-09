@@ -443,3 +443,132 @@ python -c "import sys; print(sys.stdout.encoding); print('中文测试：接受�
 ### 题目 5 参考思路
 
 编写一个公共检查函数，先复制输入记录，再调用统计函数，分别断言返回值和原输入。用四个无参数测试函数准备不同场景，再由 `run_tests()` 统一调用，最后使用入口保护启动测试。
+
+## 十四、Git 与 GitHub 发布补充
+
+### 1. Git、GitHub 与 GitHub CLI
+
+- Git 是本地版本管理软件，断网时仍能执行 `status`、`add`、`commit`、`log` 和 `diff`。
+- GitHub 是远程仓库托管与协作平台，提供代码浏览、Pull Request、Issue、Actions 和 Release 等功能。
+- `gh` 是 GitHub CLI，用来登录 GitHub、创建远程仓库和操作 Pull Request 等网站功能；它不能替代 Git 的本地版本管理。
+
+### 2. 从本地文件到 GitHub 的完整路径
+
+```text
+工作区
+  ↓ git add
+暂存区
+  ↓ git commit
+本地仓库与本地分支
+  ↓ git push
+GitHub远程仓库与远程分支
+```
+
+保存文件、暂存、提交和推送是四个不同动作：
+
+- 保存文件只改变工作区；
+- `git add` 选择下一次提交的内容；
+- `git commit` 创建本地历史快照；
+- `git push` 才把本地提交上传到 GitHub。
+
+GitHub 不会获得未提交、未推送或被 `.gitignore` 忽略的文件。
+
+### 3. `origin`、`main`、`origin/main` 与 `HEAD`
+
+`origin` 是远程仓库网址在本地的简称，不是分支，也不是 GitHub 的固定关键字：
+
+```text
+origin → https://github.com/obbosive/ai-agent-learning.git
+```
+
+- `main`：本地分支；
+- GitHub 上的 `main`：远程服务器上的分支；
+- `origin/main`：本地保存的“上次已知的远程 main 位置”；
+- `HEAD`：当前正在操作的位置，通常指向当前分支。
+
+`origin/main` 不是 GitHub 的实时画面。只有 `fetch`、`pull` 或成功的 `push` 等网络操作才会更新它。
+
+### 4. 第一次推送与上游关系
+
+第一次推送使用：
+
+```powershell
+git push -u origin main
+```
+
+其中：
+
+- `origin main` 说明这一次把本地 `main` 推到哪个远程和分支；
+- `-u` 是 `--set-upstream`，让 Git 记住本地 `main` 默认跟踪 `origin/main`。
+
+建立上游关系后，通常可以简写为：
+
+```powershell
+git push
+git pull
+```
+
+如果第一次忘记 `-u`，提交仍可能成功上传，只是后续直接执行 `git push` 或 `git pull` 时可能无法确定默认目标。可以再次执行 `git push -u origin main` 补上关系。
+
+### 5. `fetch` 与 `pull`
+
+`git fetch origin` 会真实下载远程新增的提交、目录和文件内容，保存进本地 `.git` 数据库，并更新 `origin/main`，但不会移动当前 `main`，也不会修改工作区文件。
+
+下载后可以先安全检查：
+
+```powershell
+git status -sb
+git log --oneline --decorate --graph --all
+git diff main..origin/main
+```
+
+`git pull` 大致等于：
+
+```text
+git fetch
++
+将远程变化合入当前分支
+```
+
+如果本地没有额外提交，Git 可以进行 `Fast-forward`：只把本地分支指针向前移动，不额外创建合并提交。
+
+### 6. `clone` 与下载 ZIP
+
+`git clone` 会创建本地目录、下载完整提交历史与标签、创建 `.git` 数据库、检出默认分支，并自动把远程地址保存为 `origin`。它适合继续开发项目。
+
+下载 ZIP 只获得某一个版本的普通文件，没有 `.git`、提交历史和远程关系，适合只查看或运行代码。
+
+Clone 只配置 Git 层面的项目，不会自动安装 Python、第三方依赖、VS Code 插件、虚拟环境、数据库和环境变量。真实项目仍需根据 README 配置运行环境。
+
+### 7. 分支与 Pull Request
+
+分支本质上是指向某个提交的可移动指针，不是复制一整份项目文件。
+
+```powershell
+git switch -c agent/github-notes
+```
+
+会从当前位置创建新分支并让 `HEAD` 切换过去。创建瞬间，新分支和 `main` 指向同一个提交；在新分支产生提交后，新分支向前移动，而 `main` 保持原位。
+
+典型团队流程是：
+
+```text
+从main创建功能分支
+→ 在功能分支修改与提交
+→ push功能分支
+→ 创建Pull Request
+→ 检查差异与自动测试
+→ 合并回main
+```
+
+Pull Request 不是下载代码，而是一份“请求把某个分支的修改合并进目标分支”的协作记录。它集中展示提交、文件差异、讨论和检查结果。
+
+### 8. 当前项目的发布结果
+
+- GitHub 仓库：`obbosive/ai-agent-learning`；
+- 远程简称：`origin`；
+- 默认分支：`main`；
+- `main` 已与 `origin/main` 建立上游关系；
+- `v0.1.0` 标签固定指向 Day 6 里程碑；
+- Day 7 项目、每日笔记和完整提交历史已经上传；
+- GitHub CLI 通过临时 Clash HTTP 代理完成登录和发布，代理环境变量只在当前 PowerShell 窗口生效。
