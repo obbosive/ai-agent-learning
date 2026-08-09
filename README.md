@@ -5,3 +5,9 @@
 # 程序结构── main.py paper_manager.py
 # 运行方法 ：在根目录执行 python .\day06\main.py
 # 运行测试 ：python .\day06\test_statistics.py
+
+# 补充day07新增个人考核项目---实习职位管理系统
+# 类似于论文管理系统，但是有一定区别
+# 项目结构 job_manager.py main.py storage.py test_statistics.py
+# 运行方法 python day07/main.py
+# 学习收获：自己动手构建了一下，算是一次对于前面六天内容的深度复习，而且有很重要的实际操作意义！

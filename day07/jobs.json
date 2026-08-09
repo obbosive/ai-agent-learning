@@ -1,0 +1,12 @@
+[
+    {
+        "company": "tencent",
+        "location": "shenzhen",
+        "status": "拒绝"
+    },
+    {
+        "company": "pdd",
+        "location": "shanghai",
+        "status": "接受"
+    }
+]
